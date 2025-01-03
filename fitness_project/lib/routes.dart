@@ -5,5 +5,5 @@ import 'package:fitness_project/screens/connectscreen.dart';
 var routes = {
   '/': (context) => Homescreen(),
   // '/home': (context) => Homescreen(),
-  // '/connect': (context) => Connectscreen(),
+  '/connect': (context) => ConnectScreen(),
 };
