@@ -11,6 +11,8 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  bool isPaired = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,22 +26,32 @@ class _HomescreenState extends State<Homescreen> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical! * 8,
                 width: SizeConfig.blockSizeHorizontal! * 80,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/connect');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                      child: Text("Pair Device",
-                          style: GoogleFonts.exo2(
-                              fontSize: 40,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
-                    )),
-              )
+                // (expression) ? (true) : (false)
+                child: (isPaired)
+                    ? Container()
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/connect');
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                          child: Text("Pair Device",
+                              style: GoogleFonts.exo2(
+                                  fontSize: 40,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        )),
+              ),
+              // ElevatedButton(
+              //     onPressed: () {
+              //       setState(() {
+              //         isPaired = !isPaired;
+              //       });
+              //     },
+              //     child: Text("test"))
             ],
           ),
         ),

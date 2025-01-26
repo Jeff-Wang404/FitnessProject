@@ -141,7 +141,17 @@ class _BodyPopupState extends State<BodyPopup> {
                         fontSize: 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
-                ElevatedButton(onPressed: () {}, child: Text("Detailed View"))
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/detailed');
+                    },
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    child: Text("Detailed View",
+                        style: GoogleFonts.exo2(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)))
               ],
             ),
           ),
