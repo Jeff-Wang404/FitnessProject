@@ -10,7 +10,7 @@ import numpy as np
 CSV_PATH = 'data.csv'
 OUTPUT_DIR = 'dataset'
 RANDOM_SEED = 42
-WINDOW_SIZE = 128
+WINDOW_SIZE = 4 # 128
 OVERLAP = 0.5
 
 base_dir = "source"
@@ -22,7 +22,7 @@ classes = {
 
 def segment_signal(data, window_size, overlap):
     segments = []
-    step = window_size - overlap
+    step = window_size - int(window_size * overlap)
     for start in range(0, len(data) - window_size + 1, step):
         end = start + window_size
         segment = data[start:end]
@@ -33,6 +33,28 @@ def segment_signal(data, window_size, overlap):
 # Lists to collect all segments and labels
 all_segments = []
 all_labels = []
+
+csv_files = [f for f in os.listdir(base_dir) if f.endswith('.csv')]
+for csv_file in csv_files:
+    filename = os.path.basename(csv_file).lower()
+    filename = filename.replace(".csv", "")
+    if classes.get(filename) is None:
+        print(f"Skipping {filename} as it is not in the classes dictionary")
+        continue
+    label = classes[filename]
+    data = pd.read_csv(os.path.join(base_dir, csv_file))
+
+    segments = segment_signal(data, WINDOW_SIZE, OVERLAP)
+
+    for segment in segments:
+        all_segments.append(segment)
+        all_labels.append(label)
+
+# convert to numpy arrays
+all_segments = np.array(all_segments)
+all_labels = np.array(all_labels)
+print("Total segments: ", all_segments.shape[0])
+
 
 # for folder_name, label_value in classes.items(): # TODO readjust this in a moment
 #     folder_path = os.path.join(base_dir, folder_name)
@@ -69,11 +91,15 @@ all_labels = []
 
 # Split data into training and test sets
 X_train, X_temp, y_train, y_temp = train_test_split(
-    X, y, train_size=0.8, random_state=RANDOM_SEED
+    all_segments, all_labels, train_size=0.8, random_state=RANDOM_SEED
 )
 X_val, X_test, y_val, y_test = train_test_split(
     X_temp, y_temp, train_size=0.5, random_state=RANDOM_SEED
 )
+
+# If the destination files do not exist, create the directory
+if not os.path.exists(OUTPUT_DIR):
+    os.makedirs(OUTPUT_DIR)
 
 np.save(os.path.join(OUTPUT_DIR, "X_train.npy"), X_train)
 np.save(os.path.join(OUTPUT_DIR, "y_train.npy"), y_train)

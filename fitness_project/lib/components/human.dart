@@ -15,65 +15,146 @@ class _HumanWidgetState extends State<HumanWidget> {
   Widget build(BuildContext context) {
     return Container(
         color: Colors.orange,
-        child: Column(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Image.asset(
+              'assets/model.png',
+              height: SizeConfig.blockSizeVertical! * 60,
+            ),
+            Column(
               children: [
-                Container(
-                  color: Colors.red,
-                  width: SizeConfig.blockSizeHorizontal! * 10,
-                  height: SizeConfig.blockSizeVertical! * 30,
-                ),
-                InkWell(
-                  onTap: () {
-                    print('Human');
-                  },
-                  onLongPress: () {
-                    print('Long Press');
-                    HapticFeedback.mediumImpact();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return BodyPopup();
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        print('Human');
                       },
-                    );
-                  },
-                  child: Container(
-                    color: Colors.blue,
-                    width: SizeConfig.blockSizeHorizontal! * 30,
-                    height: SizeConfig.blockSizeVertical! * 30,
-                  ),
+                      onLongPress: () {
+                        print('Long Press');
+                        HapticFeedback.mediumImpact();
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BodyPopup(
+                              bodyPart: "Right Arm",
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        color: const Color.fromARGB(48, 244, 67, 54),
+                        width: SizeConfig.blockSizeHorizontal! * 10,
+                        height: SizeConfig.blockSizeVertical! * 18,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        print('Human');
+                      },
+                      onLongPress: () {
+                        print('Long Press');
+                        HapticFeedback.mediumImpact();
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BodyPopup(bodyPart: "torso");
+                          },
+                        );
+                      },
+                      child: Container(
+                        color: const Color.fromARGB(48, 33, 149, 243),
+                        width: SizeConfig.blockSizeHorizontal! * 25,
+                        height: SizeConfig.blockSizeVertical! * 18,
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          print('Human');
+                        },
+                        onLongPress: () {
+                          print('Long Press');
+                          HapticFeedback.mediumImpact();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return BodyPopup(
+                                bodyPart: "Left Arm",
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          color: const Color.fromARGB(49, 76, 175, 79),
+                          width: SizeConfig.blockSizeHorizontal! * 10,
+                          height: SizeConfig.blockSizeVertical! * 18,
+                        ))
+                  ],
                 ),
-                Container(
-                  color: Colors.green,
-                  width: SizeConfig.blockSizeHorizontal! * 10,
-                  height: SizeConfig.blockSizeVertical! * 30,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          print('Human');
+                        },
+                        onLongPress: () {
+                          print('Long Press');
+                          HapticFeedback.mediumImpact();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return BodyPopup(
+                                bodyPart: "Right Leg",
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          color: const Color.fromARGB(49, 76, 175, 79),
+                          width: SizeConfig.blockSizeHorizontal! * 10,
+                          height: SizeConfig.blockSizeVertical! * 30,
+                        )),
+                    Container(
+                      color: const Color.fromARGB(0, 244, 67, 54),
+                      width: SizeConfig.blockSizeHorizontal! * 8,
+                      height: SizeConfig.blockSizeVertical! * 30,
+                    ),
+                    InkWell(
+                        onTap: () {
+                          print('Human');
+                        },
+                        onLongPress: () {
+                          print('Long Press');
+                          HapticFeedback.mediumImpact();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return BodyPopup(
+                                bodyPart: "Left Leg",
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          color: const Color.fromARGB(52, 244, 67, 54),
+                          width: SizeConfig.blockSizeHorizontal! * 10,
+                          height: SizeConfig.blockSizeVertical! * 30,
+                        ))
+                  ],
                 )
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  color: Colors.green,
-                  width: SizeConfig.blockSizeHorizontal! * 10,
-                  height: SizeConfig.blockSizeVertical! * 30,
-                ),
-                Container(
-                  color: Colors.red,
-                  width: SizeConfig.blockSizeHorizontal! * 10,
-                  height: SizeConfig.blockSizeVertical! * 30,
-                )
-              ],
-            )
           ],
         ));
   }
 }
 
 class BodyPopup extends StatefulWidget {
-  const BodyPopup({super.key});
+  BodyPopup({super.key, required this.bodyPart});
+
+  String bodyPart;
 
   @override
   State<BodyPopup> createState() => _BodyPopupState();
@@ -87,7 +168,7 @@ class _BodyPopupState extends State<BodyPopup> {
       contentPadding: EdgeInsets.all(0),
       content: SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 80,
-        height: SizeConfig.blockSizeVertical! * 25,
+        height: SizeConfig.blockSizeVertical! * 40,
         child: Card(
           color: Colors.black,
           child: Padding(
@@ -95,6 +176,12 @@ class _BodyPopupState extends State<BodyPopup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(widget.bodyPart,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.exo2(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
                 Row(
                   children: [
                     Icon(Icons.whatshot, color: Colors.white),
@@ -151,7 +238,7 @@ class _BodyPopupState extends State<BodyPopup> {
                         style: GoogleFonts.exo2(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black)))
+                            color: const Color.fromARGB(200, 0, 0, 0))))
               ],
             ),
           ),
