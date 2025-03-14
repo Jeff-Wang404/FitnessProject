@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_project/routes.dart';
 import 'package:fitness_project/size_config.dart';
+import 'package:fitness_project/services/data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    Data().init();
+    Data().loadData();
     return MaterialApp(
       title: 'RepSync',
       theme: ThemeData(

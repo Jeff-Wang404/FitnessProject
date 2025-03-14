@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fitness_project/size_config.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fitness_project/services/data.dart';
 
 class HumanWidget extends StatefulWidget {
   const HumanWidget({super.key});
@@ -14,7 +15,7 @@ class _HumanWidgetState extends State<HumanWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.orange,
+        color: const Color.fromARGB(255, 239, 239, 239),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -185,7 +186,8 @@ class _BodyPopupState extends State<BodyPopup> {
                 Row(
                   children: [
                     Icon(Icons.whatshot, color: Colors.white),
-                    Text("Calories Burned: 1000",
+                    Text(
+                        "Calories Burned: ${Data().data.containsKey("${widget.bodyPart}_calories") ? Data().data["${widget.bodyPart}_calories"] : 0}", // TODO: integrate the health package when time permits
                         style: GoogleFonts.exo2(
                             fontSize: 20,
                             color: Colors.white,
@@ -195,7 +197,8 @@ class _BodyPopupState extends State<BodyPopup> {
                 Row(
                   children: [
                     Icon(Icons.whatshot, color: Colors.white),
-                    Text("Reps Trained: 1000",
+                    Text(
+                        "Reps Trained: ${Data().data.containsKey("${widget.bodyPart}_reps") ? Data().data["${widget.bodyPart}_reps"] : 0}",
                         style: GoogleFonts.exo2(
                             fontSize: 20,
                             color: Colors.white,
