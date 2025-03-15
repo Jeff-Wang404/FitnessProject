@@ -3,6 +3,7 @@ import 'package:fitness_project/size_config.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fitness_project/services/data.dart';
+import 'package:fitness_project/screens/detailedscreen.dart';
 
 class HumanWidget extends StatefulWidget {
   const HumanWidget({super.key});
@@ -39,13 +40,13 @@ class _HumanWidgetState extends State<HumanWidget> {
                           context: context,
                           builder: (BuildContext context) {
                             return BodyPopup(
-                              bodyPart: "Right Arm",
+                              bodyPart: "Arms",
                             );
                           },
                         );
                       },
                       child: Container(
-                        color: const Color.fromARGB(48, 244, 67, 54),
+                        color: const Color.fromARGB(0, 244, 67, 54),
                         width: SizeConfig.blockSizeHorizontal! * 10,
                         height: SizeConfig.blockSizeVertical! * 18,
                       ),
@@ -60,12 +61,12 @@ class _HumanWidgetState extends State<HumanWidget> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return BodyPopup(bodyPart: "torso");
+                            return BodyPopup(bodyPart: "Torso");
                           },
                         );
                       },
                       child: Container(
-                        color: const Color.fromARGB(48, 33, 149, 243),
+                        color: const Color.fromARGB(0, 33, 149, 243),
                         width: SizeConfig.blockSizeHorizontal! * 25,
                         height: SizeConfig.blockSizeVertical! * 18,
                       ),
@@ -81,13 +82,13 @@ class _HumanWidgetState extends State<HumanWidget> {
                             context: context,
                             builder: (BuildContext context) {
                               return BodyPopup(
-                                bodyPart: "Left Arm",
+                                bodyPart: "Arms",
                               );
                             },
                           );
                         },
                         child: Container(
-                          color: const Color.fromARGB(49, 76, 175, 79),
+                          color: const Color.fromARGB(0, 76, 175, 79),
                           width: SizeConfig.blockSizeHorizontal! * 10,
                           height: SizeConfig.blockSizeVertical! * 18,
                         ))
@@ -101,19 +102,18 @@ class _HumanWidgetState extends State<HumanWidget> {
                           print('Human');
                         },
                         onLongPress: () {
-                          print('Long Press');
                           HapticFeedback.mediumImpact();
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return BodyPopup(
-                                bodyPart: "Right Leg",
+                                bodyPart: "Legs",
                               );
                             },
                           );
                         },
                         child: Container(
-                          color: const Color.fromARGB(49, 76, 175, 79),
+                          color: const Color.fromARGB(0, 76, 175, 79),
                           width: SizeConfig.blockSizeHorizontal! * 10,
                           height: SizeConfig.blockSizeVertical! * 30,
                         )),
@@ -133,13 +133,13 @@ class _HumanWidgetState extends State<HumanWidget> {
                             context: context,
                             builder: (BuildContext context) {
                               return BodyPopup(
-                                bodyPart: "Left Leg",
+                                bodyPart: "Legs",
                               );
                             },
                           );
                         },
                         child: Container(
-                          color: const Color.fromARGB(52, 244, 67, 54),
+                          color: const Color.fromARGB(0, 244, 67, 54),
                           width: SizeConfig.blockSizeHorizontal! * 10,
                           height: SizeConfig.blockSizeVertical! * 30,
                         ))
@@ -233,7 +233,14 @@ class _BodyPopupState extends State<BodyPopup> {
                         fontWeight: FontWeight.bold)),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/detailed');
+                      // go to the detailed view, pass in the body part argument
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailScreen(
+                                    bodyPart: widget.bodyPart,
+                                  )));
                     },
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.white),
