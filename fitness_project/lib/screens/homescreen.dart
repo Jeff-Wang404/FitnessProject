@@ -26,6 +26,9 @@ class _HomescreenState extends State<Homescreen> {
                   HumanWidget(),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical! * 8,
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical! * 8,
                     width: SizeConfig.blockSizeHorizontal! * 80,
                     // (expression) ? (true) : (false)
                     child: (isPaired)
