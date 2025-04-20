@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     Data().loadData();
     return MaterialApp(
       title: 'RepSync',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
