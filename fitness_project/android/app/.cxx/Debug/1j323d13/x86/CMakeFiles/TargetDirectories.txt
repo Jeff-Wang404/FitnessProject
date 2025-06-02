@@ -1,0 +1,2 @@
+D:/Student Projects/FitnessProject/fitness_project/android/app/.cxx/Debug/1j323d13/x86/CMakeFiles/edit_cache.dir
+D:/Student Projects/FitnessProject/fitness_project/android/app/.cxx/Debug/1j323d13/x86/CMakeFiles/rebuild_cache.dir
