@@ -1,4 +1,4 @@
-package com.example.fitness_project
+package com.jeff.RepSync
 
 import io.flutter.embedding.android.FlutterActivity
 

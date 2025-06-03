@@ -34,6 +34,8 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>RepSync requires Bluetooth access to connect to assisting devices.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
