@@ -7,12 +7,12 @@
 import time # keeps track of time
 import board # provides access to the board's pins
 import busio # for I2C communication
-import adafruit_adx134x # library for the ADXL345 accelerometer
+import adafruit_adxl34x # library for the ADXL345 accelerometer
 import neopixel # library for controlling NeoPixels
 import analogio # library for reading analog inputs (for checking low battery)
 from adafruit_ble import BLERadio # library for Bluetooth Low Energy communication
 from adafruit_ble.advertising.standard import ProvideServicesAdvertisement # for advertising BLE services
-from adafruit_ble_uart import UARTService # for UART communication over BLE
+from adafruit_ble.services.nordic import UARTService # for UART communication over BLE
 
 # ---------- USER SETTINGS ----------
 # EXERCISE_LABEL = 1 # 0=None, 1=Lateral Raise, 2=Curls, 3=Dumbell Press
@@ -24,12 +24,14 @@ PREPARE_SECONDS = 10 # seconds before recording starts
 
 # Create BLE radio and services
 ble = BLERadio()
+ble.name = "RepSync Device"  # Set BLE device name
 uart = UARTService()
 advertisement = ProvideServicesAdvertisement(uart)
 
 # Create I2C bus
-i2c = busio.I2C(board.SCL, board.SDA)
-adxl = adafruit_adx134x.ADXL345(i2c)
+# i2c = busio.I2C(board.SCL, board.SDA)
+i2c = board.STEMMA_I2C()
+adxl = adafruit_adxl34x.ADXL345(i2c)
 
 # Define neopixel colors
 pixel = neopixel.NeoPixel(board.NEOPIXEL, 1)
@@ -66,7 +68,7 @@ while True:
     while not ble.connected:
         pixel.brightness = 0.1  # Dim the pixel while waiting
         time.sleep(0.5)
-        pixel.brightness = 1.0  # Brighten the pixel when connected
+        pixel.brightness = 0.5  # Brighten the pixel when connected
         time.sleep(0.5)
     ble.stop_advertising()
 
@@ -82,6 +84,8 @@ while True:
         else:
             # Blick red if low battery
             blink_pixel(COLOR_LOW_BATTERY, interval=2.0)
+            # alernate: solid red
+            # pixel.fill(COLOR_LOW_BATTERY)
         # Stream accelerometer data
         x, y, z = adxl.acceleration
         data = "{:.3f},{:.3f},{:.3f}\n".format(x, y, z)
