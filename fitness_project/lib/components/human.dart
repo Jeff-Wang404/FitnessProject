@@ -6,7 +6,9 @@ import 'package:fitness_project/services/data.dart';
 import 'package:fitness_project/screens/detailedscreen.dart';
 
 class HumanWidget extends StatefulWidget {
-  const HumanWidget({super.key});
+  const HumanWidget({super.key, required this.scale});
+
+  final double scale;
 
   @override
   State<HumanWidget> createState() => _HumanWidgetState();
@@ -97,20 +99,23 @@ class _HumanWidgetState extends State<HumanWidget> {
           children: [
             Stack(
               children: [
+                // TODO: fix scaling
                 Positioned(
                     top: SizeConfig.blockSizeVertical! * 3.8,
                     left: SizeConfig.blockSizeHorizontal! * 32,
                     child: Image.asset(
                       //'assets/chest_$exampleColor.png',
                       'assets/chest_$chestColor.png',
-                      width: SizeConfig.blockSizeHorizontal! * 25.5,
+                      width:
+                          SizeConfig.blockSizeHorizontal! * 25.5 * widget.scale,
                     )),
                 Positioned(
                     top: SizeConfig.blockSizeVertical! * 11,
                     left: SizeConfig.blockSizeHorizontal! * 35,
                     child: Image.asset(
                       'assets/abs_$absColor.png',
-                      width: SizeConfig.blockSizeHorizontal! * 20,
+                      width:
+                          SizeConfig.blockSizeHorizontal! * 20 * widget.scale,
                     )),
                 Positioned(
                     top: SizeConfig.blockSizeVertical! * 3.5,
@@ -118,40 +123,45 @@ class _HumanWidgetState extends State<HumanWidget> {
                     child: Image.asset(
                       //'assets/shoulders_$exampleColor.png',
                       'assets/shoulders_$shouldersColor.png',
-                      width: SizeConfig.blockSizeHorizontal! * 35,
+                      width:
+                          SizeConfig.blockSizeHorizontal! * 35 * widget.scale,
                     )),
                 Positioned(
                     top: SizeConfig.blockSizeVertical! * 7,
                     left: SizeConfig.blockSizeHorizontal! * 21.5,
                     child: Image.asset(
                       'assets/biceps_$bicepsColor.png',
-                      width: SizeConfig.blockSizeHorizontal! * 47.2,
+                      width:
+                          SizeConfig.blockSizeHorizontal! * 47.2 * widget.scale,
                     )),
                 Positioned(
                     top: SizeConfig.blockSizeVertical! * 10,
                     left: SizeConfig.blockSizeHorizontal! * 12,
                     child: Image.asset(
                       'assets/forearms_$forearmsColor.png',
-                      width: SizeConfig.blockSizeHorizontal! * 66,
+                      width:
+                          SizeConfig.blockSizeHorizontal! * 66 * widget.scale,
                     )),
                 Positioned(
                     top: SizeConfig.blockSizeVertical! * 17,
                     left: SizeConfig.blockSizeHorizontal! * 31,
                     child: Image.asset(
                       'assets/thighs_$thighsColor.png',
-                      width: SizeConfig.blockSizeHorizontal! * 28,
+                      width:
+                          SizeConfig.blockSizeHorizontal! * 28 * widget.scale,
                     )),
                 Positioned(
                     top: SizeConfig.blockSizeVertical! * 35,
                     left: SizeConfig.blockSizeHorizontal! * 32.5,
                     child: Image.asset(
                       'assets/shins_$shinsColor.png',
-                      width: SizeConfig.blockSizeHorizontal! * 25,
+                      width:
+                          SizeConfig.blockSizeHorizontal! * 25 * widget.scale,
                     )),
                 Image.asset(
                   'assets/wireframe.png',
                   // height: SizeConfig.blockSizeVertical! * 60,
-                  width: SizeConfig.blockSizeHorizontal! * 90,
+                  width: SizeConfig.blockSizeHorizontal! * 90 * widget.scale,
                 ),
               ],
             ),
@@ -305,6 +315,31 @@ class _BodyPopupState extends State<BodyPopup> {
     return "High";
   }
 
+  String recommendWorkouts() {
+    // Recommend 3 random workouts based on the body part
+    if (widget.bodyPart == "Pecs") {
+      data.pecExercises.shuffle();
+      return data.pecExercises.take(3).join(", ");
+    } else if (widget.bodyPart == "Arms") {
+      data.armExercises.shuffle();
+      return data.armExercises.take(3).join(", ");
+    } else if (widget.bodyPart == "Legs") {
+      data.legsExercises.shuffle();
+      return data.legsExercises.take(3).join(", ");
+    } else {
+      return "No workouts found";
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    determinePriority();
+    setState(() {
+      data.currentRecommendedWorkouts = recommendWorkouts();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -312,7 +347,7 @@ class _BodyPopupState extends State<BodyPopup> {
       contentPadding: EdgeInsets.all(0),
       content: SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 80,
-        height: SizeConfig.blockSizeVertical! * 30,
+        height: SizeConfig.blockSizeVertical! * 35,
         child: Card(
           color: Colors.black,
           child: Padding(
@@ -373,7 +408,7 @@ class _BodyPopupState extends State<BodyPopup> {
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
-                Text("Benches, Flies, Push-ups",
+                Text(data.currentRecommendedWorkouts,
                     textAlign: TextAlign.left,
                     style: GoogleFonts.exo2(
                         fontSize: 20,

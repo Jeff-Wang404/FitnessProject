@@ -57,6 +57,35 @@ class Data {
   }
   Data._internal();
 
+  List<String> pecExercises = [
+    "Pec Deck",
+    "Barbell Bench Press",
+    "Dumbell Presses",
+    "Barbell Presses",
+    "Cable Crossover",
+    "Incline Bench Press"
+  ];
+
+  List<String> armExercises = [
+    "Bicep Curls",
+    "Preacher Curls",
+    "Triceps Pushdown",
+    "Overhead Cable Triceps Extension",
+    "Hammer Curls",
+    "Close-Grip Bench Press"
+  ];
+
+  List<String> legsExercises = [
+    "Romanian Deadlift",
+    "Kettlebell Swings",
+    "Barbell Front Squat",
+    "Dumbell Walking Lunges",
+    "Cable Squat to Overhead Press",
+    "Landmine Reverse Lunge with Press"
+  ];
+
+  String currentRecommendedWorkouts = "";
+
   // shared preferences instance
   SharedPreferences? _prefs;
   Future<void> init() async {

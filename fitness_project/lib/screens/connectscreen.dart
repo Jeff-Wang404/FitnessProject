@@ -53,17 +53,21 @@ class _ConnectScreenState extends State<ConnectScreen>
 
   // function to start scanning for devices advertising the service
   void _startScanning() {
+    print("Starting scan...");
     FlutterBluePlus.startScan(
       withServices: [serviceUuid],
-      timeout: const Duration(seconds: 999),
+      timeout: const Duration(seconds: 10), // original: 999 seconds
     );
     scanSubscription = FlutterBluePlus.scanResults.listen(
       (results) {
         setState(() {
           scanResults = results;
           for (var result in results) {
-            if (result.advertisementData.serviceUuids
-                .contains(serviceUuid.toString())) {
+            // print(result.advertisementData.serviceUuids);
+            // print(serviceUuid.toString());
+            // print(result.advertisementData.serviceUuids[0] == serviceUuid);
+            if (result.advertisementData.serviceUuids.contains(serviceUuid)) {
+              print("Found device: ${result.device.advName}");
               FlutterBluePlus.stopScan();
               scanSubscription.cancel();
               _connectToDevice(result.device);
@@ -82,10 +86,12 @@ class _ConnectScreenState extends State<ConnectScreen>
   // function to attempt connecting to a device
   Future<void> _connectToDevice(BluetoothDevice device) async {
     try {
+      print("Attempting to connect to ${device.advName}");
       await device.connect();
       final services = await device.discoverServices();
       if (services.any((s) => s.uuid == serviceUuid)) {
         setState(() {
+          print("Connected to ${device.advName}");
           _connectedDevice = device;
           statusMessage = "Connected!";
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -109,6 +115,7 @@ class _ConnectScreenState extends State<ConnectScreen>
     if (_connectedDevice != null) {
       await _connectedDevice!.disconnect();
       setState(() {
+        print("Disconnected from device");
         _connectedDevice = null;
         statusMessage = "Disconnected";
       });
