@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fitness_project/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fitness_project/screens/recommendation.dart';
+import 'package:fitness_project/services/data.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.bodyPart});
@@ -13,10 +14,26 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  final Data data = Data();
   double _soreness = 70;
   String option_1 = "Benches";
   String option_2 = "Flies";
   String option_3 = "Push-ups";
+
+  int minutesTrainedThisWeek = 0;
+  int totalMinutesTrained = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    List<String> exercises = data.currentRecommendedWorkouts.split(', ');
+    option_1 = exercises[0];
+    option_2 = exercises[1];
+    option_3 = exercises[2];
+    print("Options: $option_1, $option_2, $option_3");
+    print("Body part: ${widget.bodyPart}");
+  }
 
   @override
   Widget build(BuildContext context) {
