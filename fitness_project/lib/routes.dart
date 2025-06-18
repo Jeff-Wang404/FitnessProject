@@ -3,6 +3,7 @@ import 'package:fitness_project/screens/homescreen.dart';
 import 'package:fitness_project/screens/connectscreen.dart';
 // import 'package:fitness_project/screens/detailedscreen.dart';
 import 'package:fitness_project/screens/workoutscreen.dart';
+import 'package:fitness_project/screens/settings.dart';
 
 var routes = {
   '/': (context) => Homescreen(),
@@ -10,4 +11,5 @@ var routes = {
   '/connect': (context) => ConnectScreen(),
   // '/detailed': (context) => DetailScreen(),
   '/workout': (context) => WorkoutScreen(),
+  '/settings': (context) => SettingScreen(),
 };

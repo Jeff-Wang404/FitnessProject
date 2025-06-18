@@ -1,95 +1,70 @@
+# dataset.py
 import os
-import csv
 import random
 random.seed(42)
+
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from pathlib import Path
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 CSV_PATH = 'data.csv'
 OUTPUT_DIR = 'dataset'
 RANDOM_SEED = 42
-WINDOW_SIZE = 4 # 128
+WINDOW_SIZE = 128
 OVERLAP = 0.5
 
 base_dir = "source"
 classes = {
-    "curls": 0,
-    "lateral_raises": 1,
-    "dumbell_presses": 2,
+    "idle": 0,
+    "pec_deck": 1,
+    "barbell_bench_press": 2,
+    "dumbbell_presses": 3,
+    "dumbbell_flies": 4,
+    "cable_crossover": 5,
+    "incline_bench_press": 6,
+    "bicep_curls": 7,
+    "preacher_curls": 8,
+    "tricep_pushdowns": 9,
+    "overhead_cable_triceps_extension": 10,
+    "hammer_curls": 11,
+    "close_grip_bench_press": 12,
+    "romanian_deadlift": 13,
+    "kettlebell_swings": 14,
+    "barbell_front_squats": 15,
+    "dumbell_walking_lunges": 16,
+    "cable_squat_to_overhead_press": 17,
+    "landmine_reverse_lunge_with_press": 18,
 }
 
 def segment_signal(data, window_size, overlap):
     segments = []
     step = window_size - int(window_size * overlap)
-    for start in range(0, len(data) - window_size + 1, step):
-        end = start + window_size
-        segment = data[start:end]
-        if len(segment) == window_size:
-            segments.append(segment)
+    arr = data[["accel_x","accel_y","accel_z"]].values
+    for start in range(0, len(arr) - window_size + 1, step):
+        seg = arr[start:start+window_size]
+        segments.append(seg)
     return segments
 
-# Lists to collect all segments and labels
-all_segments = []
-all_labels = []
+# Gather segments & labels
+all_segments, all_labels = [], []
 
-csv_files = [f for f in os.listdir(base_dir) if f.endswith('.csv')]
-for csv_file in csv_files:
-    filename = os.path.basename(csv_file).lower()
-    filename = filename.replace(".csv", "")
-    if classes.get(filename) is None:
-        print(f"Skipping {filename} as it is not in the classes dictionary")
+for csv_file in os.listdir(base_dir):
+    if not csv_file.endswith('.csv'): continue
+    name = csv_file[:-4].lower()
+    if name not in classes:
+        print(f"Skipping {name}")
         continue
-    label = classes[filename]
-    data = pd.read_csv(os.path.join(base_dir, csv_file))
+    label = classes[name]
+    df = pd.read_csv(os.path.join(base_dir, csv_file))
+    segs = segment_signal(df, WINDOW_SIZE, OVERLAP)
+    all_segments += segs
+    all_labels += [label] * len(segs)
 
-    segments = segment_signal(data, WINDOW_SIZE, OVERLAP)
-
-    for segment in segments:
-        all_segments.append(segment)
-        all_labels.append(label)
-
-# convert to numpy arrays
 all_segments = np.array(all_segments)
-all_labels = np.array(all_labels)
-print("Total segments: ", all_segments.shape[0])
+all_labels   = np.array(all_labels)
+print("Total segments:", all_segments.shape[0])
 
-
-# for folder_name, label_value in classes.items(): # TODO readjust this in a moment
-#     folder_path = os.path.join(base_dir, folder_name)
-#     if not os.path.exists(folder_path):
-#         print(f"Folder {folder_path} does not exist")
-#         continue
-
-#     for file_name in os.listdir(folder_path):
-#         if file_name.endswith(".txt"):
-#             file_path = os.path.join(folder_path, file_name)
-#             with open(file_path, "r") as f:
-#                 for line in f:
-#                     line = line.strip()
-
-#                     if not line:
-#                         continue
-
-#                     parts = line.split(",")
-#                     if len(parts == 5):
-#                         timestamp, accel_x, accel_y, accel_z, _ = parts
-#                         # writer.writerow([timestamp, accel_x, accel_y, accel_z, label_value])
-
-
-# # 2. Data Preparation
-# df = pd.read_csv(
-#     CSV_PATH,
-#     header=None,
-#     names=["timestamp", "accel_x", "accel_y", "accel_z", "activity"]
-# )
-
-# # Extract features and labels
-# X = df[["accel_x", "accel_y", "accel_z"]].values
-# y = df["activity"].values
-
-# Split data into training and test sets
+# Split
 X_train, X_temp, y_train, y_temp = train_test_split(
     all_segments, all_labels, train_size=0.8, random_state=RANDOM_SEED
 )
@@ -97,18 +72,14 @@ X_val, X_test, y_val, y_test = train_test_split(
     X_temp, y_temp, train_size=0.5, random_state=RANDOM_SEED
 )
 
-# If the destination files do not exist, create the directory
-if not os.path.exists(OUTPUT_DIR):
-    os.makedirs(OUTPUT_DIR)
-
-np.save(os.path.join(OUTPUT_DIR, "X_train.npy"), X_train)
-np.save(os.path.join(OUTPUT_DIR, "y_train.npy"), y_train)
-np.save(os.path.join(OUTPUT_DIR, "X_val.npy"), X_val)
-np.save(os.path.join(OUTPUT_DIR, "y_val.npy"), y_val)
-np.save(os.path.join(OUTPUT_DIR, "X_test.npy"), X_test)
-np.save(os.path.join(OUTPUT_DIR, "y_test.npy"), y_test)
-
+# Save
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+for name, arr in [
+    ("X_train.npy", X_train), ("y_train.npy", y_train),
+    ("X_val.npy",   X_val),   ("y_val.npy",   y_val),
+    ("X_test.npy",  X_test),  ("y_test.npy",  y_test),
+]:
+    np.save(os.path.join(OUTPUT_DIR, name), arr)
 
 if __name__ == "__main__":
-    # process_source_to_csv()
-    print("Done processing source data to CSV")
+    print("Done processing source data to NPYs")

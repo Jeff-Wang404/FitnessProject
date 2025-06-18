@@ -60,8 +60,8 @@ class Data {
   List<String> pecExercises = [
     "Pec Deck",
     "Barbell Bench Press",
-    "Dumbell Presses",
-    "Barbell Presses",
+    "Dumbbell Presses",
+    "Dumbbell Flies",
     "Cable Crossover",
     "Incline Bench Press"
   ];
@@ -69,7 +69,7 @@ class Data {
   List<String> armExercises = [
     "Bicep Curls",
     "Preacher Curls",
-    "Triceps Pushdown",
+    "Triceps Pushdowns",
     "Overhead Cable Triceps Extension",
     "Hammer Curls",
     "Close-Grip Bench Press"
@@ -78,7 +78,7 @@ class Data {
   List<String> legsExercises = [
     "Romanian Deadlift",
     "Kettlebell Swings",
-    "Barbell Front Squat",
+    "Barbell Front Squats",
     "Dumbell Walking Lunges",
     "Cable Squat to Overhead Press",
     "Landmine Reverse Lunge with Press"

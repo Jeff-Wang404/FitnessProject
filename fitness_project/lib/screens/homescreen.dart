@@ -38,6 +38,18 @@ class _HomescreenState extends State<Homescreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 239, 239, 239),
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 239, 239, 239),
+          elevation: 0,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+            )
+          ],
+        ),
         body: Center(
           child: SafeArea(
             child: SingleChildScrollView(
