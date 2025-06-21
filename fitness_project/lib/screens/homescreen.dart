@@ -3,6 +3,26 @@ import 'package:fitness_project/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fitness_project/components/human.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+/*
+Soreness Calculation:
+- Time window: 7 days
+- Weight for each day (most core days are from actions 48-72 hours ago):
+  - 1 day ago: 0.5
+  - 2 days ago: 0.3
+  - 3 days ago: 0.2
+  - 4 days ago: 0.1
+  - 5 days ago: 0.05
+  - 6 days ago: 0.02
+  - 7 days ago: 0.01
+- Total soreness = sum of (weight * soreness for that day)
+
+Shared Preferences:
+- Store the last 7 days of soreness data
+- Use a list of doubles to represent soreness for each day
+- variable name: "sorenessData"
+ */
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -13,6 +33,16 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen> {
   bool isPaired = false;
+  List<Object> sorenessData = [];
+  final List<double> weights = [
+    0.5, // 1 day ago
+    0.3, // 2 days ago
+    0.2, // 3 days ago
+    0.1, // 4 days ago
+    0.05, // 5 days ago
+    0.02, // 6 days ago
+    0.01, // 7 days ago
+  ];
 
   Future<void> checkIfConnected() async {
     final connectedDevices = FlutterBluePlus.connectedDevices;
@@ -32,6 +62,15 @@ class _HomescreenState extends State<Homescreen> {
   void initState() {
     super.initState();
     checkIfConnected();
+
+    // get the soreness data from shared preferences
+    SharedPreferences.getInstance().then((prefs) {
+      sorenessData = prefs.getStringList('sorenessData') ?? [];
+      // Convert the string list back to a list of doubles
+      // List<double> sorenessList =
+      //     sorenessData.map((e) => double.parse(e)).toList();
+      // print("Soreness Data: $sorenessList");
+    });
   }
 
   @override
