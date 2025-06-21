@@ -48,6 +48,28 @@ import 'package:shared_preferences/shared_preferences.dart';
   - Assuming blue is 0-33%, green is 34-66%, and red is 67-100%, the soreness factor is green
   - The soreness factor is green, so the biceps color is set to green
  */
+class ExerciseCharacteristics {
+  // Constructor for ExerciseCharacteristics
+  ExerciseCharacteristics({
+    required this.chestImpact,
+    required this.absImpact,
+    required this.shouldersImpact,
+    required this.bicepsImpact,
+    required this.forearmsImpact,
+    required this.thighsImpact,
+    required this.shinsImpact,
+    required this.intensity,
+  });
+
+  double chestImpact = 0.0;
+  double absImpact = 0.0;
+  double shouldersImpact = 0.0;
+  double bicepsImpact = 0.0;
+  double forearmsImpact = 0.0;
+  double thighsImpact = 0.0;
+  double shinsImpact = 0.0;
+  int intensity;
+}
 
 class Data {
   // initialize the data class
@@ -84,12 +106,235 @@ class Data {
     "Landmine Reverse Lunge with Press"
   ];
 
+  late Map<String, ExerciseCharacteristics> exerciseCharacteristics;
+
+  ExerciseCharacteristics pecDeck = ExerciseCharacteristics(
+    chestImpact: 0.9,
+    absImpact: 0.0,
+    shouldersImpact: 0.1,
+    bicepsImpact: 0.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 15,
+  );
+
+  ExerciseCharacteristics barbellBenchPress = ExerciseCharacteristics(
+    chestImpact: 0.7,
+    absImpact: 0.0,
+    shouldersImpact: 0.2,
+    bicepsImpact: 0.1,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics dumbbellFlies = ExerciseCharacteristics(
+    chestImpact: 0.6,
+    absImpact: 0.0,
+    shouldersImpact: 0.1,
+    bicepsImpact: 0.2,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 15,
+  );
+
+  ExerciseCharacteristics dumbbellPresses = ExerciseCharacteristics(
+    chestImpact: 0.7,
+    absImpact: 0.0,
+    shouldersImpact: 0.2,
+    bicepsImpact: 0.1,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics cableCrossover = ExerciseCharacteristics(
+    chestImpact: 0.8,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 0.2,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 15,
+  );
+
+  ExerciseCharacteristics inclineBenchPress = ExerciseCharacteristics(
+    chestImpact: 0.5,
+    absImpact: 0.0,
+    shouldersImpact: 0.3,
+    bicepsImpact: 0.2,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics bicepCurls = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 1.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 15,
+  );
+
+  ExerciseCharacteristics preacherCurls = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 1.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 17,
+  );
+
+  ExerciseCharacteristics tricepsPushdowns = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 1.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics overheadCableTricepsExtension =
+      ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 1.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics hammerCurls = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 0.5,
+    forearmsImpact: 0.5,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 15,
+  );
+
+  ExerciseCharacteristics closeGripBenchPress = ExerciseCharacteristics(
+    chestImpact: 0.2,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 0.2,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.0,
+    shinsImpact: 0.0,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics romanianDeadlift = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 0.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.8,
+    shinsImpact: 0.2,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics kettlebellSwings = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.1,
+    bicepsImpact: 0.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.9,
+    shinsImpact: 0.0,
+    intensity: 6,
+  );
+
+  ExerciseCharacteristics barbellFrontSquats = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 0.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.9,
+    shinsImpact: 0.1,
+    intensity: 15,
+  );
+
+  ExerciseCharacteristics dumbellWalkingLunges = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 0.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.8,
+    shinsImpact: 0.2,
+    intensity: 8,
+  );
+
+  ExerciseCharacteristics cableSquatToOverheadPress = ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.2,
+    bicepsImpact: 0.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 0.8,
+    shinsImpact: 0.0,
+    intensity: 10,
+  );
+
+  ExerciseCharacteristics landmineReverseLungeWithPress =
+      ExerciseCharacteristics(
+    chestImpact: 0.0,
+    absImpact: 0.0,
+    shouldersImpact: 0.0,
+    bicepsImpact: 0.0,
+    forearmsImpact: 0.0,
+    thighsImpact: 1.0,
+    shinsImpact: 0.0,
+    intensity: 12,
+  );
+
   String currentRecommendedWorkouts = "";
 
   // shared preferences instance
   SharedPreferences? _prefs;
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
+    // initialize exercise characteristics map
+    exerciseCharacteristics = {
+      "Pec Deck": pecDeck,
+      "Barbell Bench Press": barbellBenchPress,
+      "Dumbbell Presses": dumbbellPresses,
+      "Dumbbell Flies": dumbbellFlies,
+      "Cable Crossover": cableCrossover,
+      "Incline Bench Press": inclineBenchPress,
+      "Bicep Curls": bicepCurls,
+      "Preacher Curls": preacherCurls,
+      "Triceps Pushdowns": tricepsPushdowns,
+      "Overhead Cable Triceps Extension": overheadCableTricepsExtension,
+      "Hammer Curls": hammerCurls,
+      "Close-Grip Bench Press": closeGripBenchPress,
+      "Romanian Deadlift": romanianDeadlift,
+      "Kettlebell Swings": kettlebellSwings,
+      "Barbell Front Squats": barbellFrontSquats,
+      "Dumbell Walking Lunges": dumbellWalkingLunges,
+      "Cable Squat to Overhead Press": cableSquatToOverheadPress,
+      "Landmine Reverse Lunge with Press": landmineReverseLungeWithPress,
+    };
   }
 
   // variables

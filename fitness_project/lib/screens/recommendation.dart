@@ -70,6 +70,21 @@ class RecommendationScreen extends StatelessWidget {
                 )
               ],
             ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
+              onPressed: () {},
+              child: Text(
+                'DEBUG: log workout',
+                style: GoogleFonts.exo2(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
               child: TextButton(

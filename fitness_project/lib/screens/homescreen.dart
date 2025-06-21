@@ -33,14 +33,14 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen> {
   bool isPaired = false;
-  List<Object> sorenessData = [];
+  List<double> sorenessData = List<double>.filled(7, 0.0);
   final List<double> weights = [
-    0.5, // 1 day ago
-    0.3, // 2 days ago
-    0.2, // 3 days ago
-    0.1, // 4 days ago
-    0.05, // 5 days ago
-    0.02, // 6 days ago
+    0.15, // 1 day ago
+    0.35, // 2 days ago
+    0.25, // 3 days ago
+    0.15, // 4 days ago
+    0.06, // 5 days ago
+    0.03, // 6 days ago
     0.01, // 7 days ago
   ];
 
@@ -58,19 +58,42 @@ class _HomescreenState extends State<Homescreen> {
     }
   }
 
+  Future<void> _loadSorenessData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final stored = prefs.getStringList('sorenessData') ?? [];
+    // Convert stored string list to doubles, ensure length 7
+    List<double> parsed = List<double>.filled(7, 0.0);
+    for (int i = 0; i < stored.length && i < 7; i++) {
+      parsed[i] = double.tryParse(stored[i]) ?? 0.0;
+    }
+    setState(() => sorenessData = parsed);
+  }
+
+  /// Calculates total soreness by weighting each day's soreness.
+  double calculateTotalSoreness() {
+    double total = 0.0;
+    for (int i = 0; i < weights.length; i++) {
+      total += weights[i] * sorenessData[i];
+    }
+    return total;
+  }
+
+  /// Infers workout intensity from reps (fewer reps = heavier load)
+  double intensityFactor(int reps) {
+    if (reps <= 4) return 1.0;
+    if (reps <= 5) return 0.90;
+    if (reps <= 6) return 0.85;
+    if (reps <= 8) return 0.75;
+    if (reps <= 10) return 0.70;
+    if (reps <= 12) return 0.65;
+    return 0.60;
+  }
+
   @override
   void initState() {
     super.initState();
     checkIfConnected();
-
-    // get the soreness data from shared preferences
-    SharedPreferences.getInstance().then((prefs) {
-      sorenessData = prefs.getStringList('sorenessData') ?? [];
-      // Convert the string list back to a list of doubles
-      // List<double> sorenessList =
-      //     sorenessData.map((e) => double.parse(e)).toList();
-      // print("Soreness Data: $sorenessList");
-    });
+    _loadSorenessData();
   }
 
   @override
