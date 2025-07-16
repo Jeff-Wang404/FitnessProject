@@ -3,6 +3,7 @@ import 'package:fitness_project/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fitness_project/screens/recommendation.dart';
 import 'package:fitness_project/services/data.dart';
+import 'package:fitness_project/services/physio.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.bodyPart});
@@ -14,6 +15,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  final PhysioService _physio = PhysioService();
   final Data data = Data();
   double _soreness = 70;
   String option_1 = "Benches";
@@ -22,6 +24,8 @@ class _DetailScreenState extends State<DetailScreen> {
 
   int minutesTrainedThisWeek = 0;
   int totalMinutesTrained = 0;
+
+  Color _partColor = Colors.blue; // Default color
 
   @override
   void initState() {
@@ -33,10 +37,48 @@ class _DetailScreenState extends State<DetailScreen> {
     option_3 = exercises[2];
     print("Options: $option_1, $option_2, $option_3");
     print("Body part: ${widget.bodyPart}");
+
+    _loadSorenessColor();
+  }
+
+  Future<void> _loadSorenessColor() async {
+    // 1. initialize & read stored history + workouts
+    await _physio.init();
+    final entries = await _physio.loadWorkouts();
+
+    // 2. compute colors
+    //    If you have an impactMap structure, pass it here.
+    //    Your service actually reads Data().exerciseCharacteristics internally,
+    //    but you still need to supply *something*:
+    final impactMaps = <String, Map<String, double>>{};
+    final colorMap = await _physio.processWorkouts(entries, impactMaps);
+
+    // 3. pick out the color for this bodyPart, e.g. "chest_color"
+    final key = '${widget.bodyPart.toLowerCase()}_color';
+    final colorName = colorMap[key] ?? 'blue';
+
+    // 4. map the string → a Flutter Color
+    setState(() {
+      _partColor = _stringToColor(colorName);
+    });
+  }
+
+  Color _stringToColor(String s) {
+    switch (s) {
+      case 'blue':
+        return Colors.blue;
+      case 'green':
+        return Colors.green;
+      case 'red':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Part Color: $_partColor");
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 239, 239, 239),
         body: SafeArea(
@@ -168,10 +210,19 @@ class _DetailScreenState extends State<DetailScreen> {
                     SizedBox(
                       height: SizeConfig.blockSizeVertical! * 50,
                       width: SizeConfig.blockSizeHorizontal! * 80,
+                      // TODO: use the commented code instead later
+                      /*
+                      ColorFiltered(
+                        colorFilter: ColorFilter.mode(_partColor, BlendMode.modulate),
+                        child: Image.asset(
+                          'assets/${widget.bodyPart}.png',
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                       */
                       child: Image.asset(
-                        // TODO: change this to the variable version after presentation version
-                        // 'assets/${widget.bodyPart}.png',
-                        'assets/Pecs.png',
+                        'assets/${widget.bodyPart}.png',
+                        // 'assets/Pecs.png',
                         fit: BoxFit.fitWidth,
                       ),
                     ),

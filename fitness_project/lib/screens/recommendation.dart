@@ -18,6 +18,10 @@ class RecommendationScreen extends StatelessWidget {
     }
   }
 
+  String getLowerSnakecase(String text) {
+    return text.toLowerCase().replaceAll(' ', '_');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +38,8 @@ class RecommendationScreen extends StatelessWidget {
               ),
               width: SizeConfig.blockSizeHorizontal! * 90,
               height: SizeConfig.blockSizeVertical! * 30,
-              child: Image.asset('assets/man.png'),
+              child: Image.asset(
+                  'assets/exercises/${getLowerSnakecase(exerciseName)}.png'),
             ),
             Text(
               exerciseName,

@@ -70,7 +70,7 @@ class PhysioService {
     } else {
       // initialize empty lists
       for (var part in recommendedMovements.keys) {
-        sorenessHistory[part] = List.filled(7, 0.0);
+        sorenessHistory[part] = List<double>.generate(7, (_) => 0.0);
       }
     }
   }
@@ -95,10 +95,35 @@ class PhysioService {
         encoded); // TODO determine better naming scheme
   }
 
+  Future<List<WorkoutEntry>> loadWorkouts() async {
+    final keys = _prefs.getKeys().where((k) => k.startsWith('workout_'));
+    final entries = <WorkoutEntry>[];
+    for (var key in keys) {
+      final raw = _prefs.getString(key);
+      if (raw != null) {
+        final entry = WorkoutEntry.fromJson(json.decode(raw));
+        entries.add(entry);
+      }
+    }
+    return entries; // return list of WorkoutEntry
+  }
+
   /// Persist current soreness history to shared preferences
   Future<void> saveHistory() async {
     final encoded = json.encode(sorenessHistory);
     await _prefs.setString(_prefsKey, encoded);
+  }
+
+  Future<Map<String, List<double>>> loadHistory() async {
+    final raw = _prefs.getString(_prefsKey);
+    if (raw != null) {
+      final decoded = json.decode(raw) as Map<String, dynamic>;
+      return decoded.map((part, list) {
+        final arr = (list as List<dynamic>).map((e) => e as double).toList();
+        return MapEntry(part, arr);
+      });
+    }
+    return {}; // return empty map if no history
   }
 
   /// Relevancy weight: peaks around 1-2 days ago (24-72h)
@@ -160,7 +185,7 @@ class PhysioService {
   /// Update history arrays with new daily factor and rotate lists
   void rollAndStoreDailyFactors(Map<String, double> todaysFactors) {
     for (var part in sorenessHistory.keys) {
-      final history = sorenessHistory[part]!;
+      List<double> history = sorenessHistory[part]!;
       // drop oldest (index 6) and insert today's at front
       history.removeLast();
       history.insert(0, todaysFactors[part] ?? 0.0);
