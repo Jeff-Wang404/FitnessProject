@@ -363,44 +363,64 @@ class _BodyPopupState extends State<BodyPopup> {
                         fontWeight: FontWeight.bold)),
                 Row(
                   children: [
-                    Icon(Icons.whatshot, color: Colors.white),
+                    Icon(Icons.whatshot,
+                        color: const Color.fromARGB(255, 226, 88, 34)),
                     Text(
-                        "Calories Burned (Week): ${Data().data.containsKey("${widget.bodyPart}_calories") ? Data().data["${widget.bodyPart}_calories"] : 0}", // TODO: integrate the health package when time permits
+                        "Calories Burned (Week): ", // TODO: integrate the health package when time permits
                         style: GoogleFonts.exo2(
                             fontSize: 20,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    Text(
+                        "${Data().data.containsKey("${widget.bodyPart}_calories") ? Data().data["${widget.bodyPart}_calories"] : 0}",
+                        style: GoogleFonts.exo2(
+                            fontSize: 20,
+                            color: const Color.fromARGB(255, 255, 222, 33),
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
                 Row(
                   children: [
-                    Icon(Icons.whatshot, color: Colors.white),
-                    Text(
-                        "Reps Trained (Week): ${Data().data.containsKey("${widget.bodyPart}_reps") ? Data().data["${widget.bodyPart}_reps"] : 0}",
+                    Icon(Icons.whatshot,
+                        color: const Color.fromARGB(255, 226, 88, 34)),
+                    Text("Reps Trained (Week): ",
                         style: GoogleFonts.exo2(
                             fontSize: 20,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    Text(
+                        "${Data().data.containsKey("${widget.bodyPart}_sets") ? Data().data["${widget.bodyPart}_sets"] : 0}",
+                        style: GoogleFonts.exo2(
+                            fontSize: 20,
+                            color: const Color.fromARGB(255, 255, 222, 33),
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
                 Row(
                   children: [
-                    Icon(Icons.whatshot, color: Colors.white),
+                    Icon(Icons.whatshot,
+                        color: const Color.fromARGB(255, 226, 88, 34)),
                     /*
                     Priority is based on the following:
                     - if that body part is part of the group the user is focusing on
                     - the soreness level of that body part
                      */
-                    Text("Muscle Group Priority: High",
+                    Text("Muscle Group Priority: ",
                         style: GoogleFonts.exo2(
                             fontSize: 20,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    Text(determinePriority(),
+                        style: GoogleFonts.exo2(
+                            fontSize: 20,
+                            color: const Color.fromARGB(255, 255, 222, 33),
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
                 Row(
                   children: [
-                    Icon(Icons.whatshot, color: Colors.white),
+                    Icon(Icons.whatshot,
+                        color: const Color.fromARGB(255, 226, 88, 34)),
                     Text("Recommended Workouts:",
                         style: GoogleFonts.exo2(
                             fontSize: 20,
@@ -409,10 +429,10 @@ class _BodyPopupState extends State<BodyPopup> {
                   ],
                 ),
                 Text(data.currentRecommendedWorkouts,
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.exo2(
-                        fontSize: 20,
-                        color: Colors.white,
+                        fontSize: 16,
+                        color: const Color.fromARGB(255, 255, 222, 33),
                         fontWeight: FontWeight.bold)),
                 ElevatedButton(
                     onPressed: () {

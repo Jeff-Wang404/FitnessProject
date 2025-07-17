@@ -56,6 +56,8 @@ class _DetailScreenState extends State<DetailScreen> {
     // 3. pick out the color for this bodyPart, e.g. "chest_color"
     final key = '${widget.bodyPart.toLowerCase()}_color';
     final colorName = colorMap[key] ?? 'blue';
+    _soreness = double.parse(
+        colorMap['${widget.bodyPart.toLowerCase()}_soreness'] ?? '0.0');
 
     // 4. map the string → a Flutter Color
     setState(() {
@@ -208,21 +210,27 @@ class _DetailScreenState extends State<DetailScreen> {
                 Stack(
                   children: [
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 50,
-                      width: SizeConfig.blockSizeHorizontal! * 80,
-                      // TODO: use the commented code instead later
-                      /*
-                      ColorFiltered(
-                        colorFilter: ColorFilter.mode(_partColor, BlendMode.modulate),
+                      // height: SizeConfig.blockSizeVertical! * 50,
+                      width: SizeConfig.blockSizeHorizontal! * 100,
+                      child: ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                            (_soreness <= 33)
+                                ? Colors.blue
+                                : (_soreness <= 66)
+                                    ? Colors.green
+                                    : Colors.red,
+                            BlendMode.modulate),
                         child: Image.asset(
-                          'assets/${widget.bodyPart}.png',
+                          'assets/${widget.bodyPart}Shade.png',
                           fit: BoxFit.fitWidth,
                         ),
                       ),
-                       */
+                    ),
+                    SizedBox(
+                      // height: SizeConfig.blockSizeVertical! * 50,
+                      width: SizeConfig.blockSizeHorizontal! * 100,
                       child: Image.asset(
-                        'assets/${widget.bodyPart}.png',
-                        // 'assets/Pecs.png',
+                        'assets/${widget.bodyPart}Wire.png',
                         fit: BoxFit.fitWidth,
                       ),
                     ),

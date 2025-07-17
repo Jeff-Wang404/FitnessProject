@@ -11,8 +11,9 @@ class RecommendationScreen extends StatelessWidget {
 
   // function to launch the link
   void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch $url';
     }
@@ -38,8 +39,11 @@ class RecommendationScreen extends StatelessWidget {
               ),
               width: SizeConfig.blockSizeHorizontal! * 90,
               height: SizeConfig.blockSizeVertical! * 30,
-              child: Image.asset(
-                  'assets/exercises/${getLowerSnakecase(exerciseName)}.png'),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Image.asset(
+                    'assets/exercises/${getLowerSnakecase(exerciseName)}.png'),
+              ),
             ),
             Text(
               exerciseName,

@@ -207,6 +207,7 @@ class PhysioService {
   ) async {
     await init();
     final factors = calculateSorenessFactors(entries, impactMaps);
+    // print("Calculated soreness factors: $factors");
     rollAndStoreDailyFactors(factors);
     await saveHistory();
 
@@ -216,6 +217,7 @@ class PhysioService {
       colors['${part}_color'] = colorForFactor(factors[part]!);
       colors['${part}_soreness'] = factors[part]!.toStringAsFixed(2);
     }
+    print("Color mapping: $colors");
     return colors;
   }
 }
