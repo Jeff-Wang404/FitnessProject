@@ -220,4 +220,90 @@ class PhysioService {
     print("Color mapping: $colors");
     return colors;
   }
+
+  double getBMI(String sex, int height, int weight, int age) {
+    double bmi = weight / ((height / 100) * (height / 100));
+
+    // Adjust based on sex
+    final sexFactor = sex.toLowerCase() == 'female' ? 0.9 : 1.0;
+
+    double ageFactor;
+
+    if (age < 18) {
+      ageFactor = 0.8;
+    } else if (age > 65) {
+      ageFactor = 1.2;
+    } else {
+      ageFactor = 1.0; // Default factor for ages 18-65
+    }
+
+    return (bmi * sexFactor * ageFactor).roundToDouble();
+  }
+
+  /// Recommend how many sets & reps to perform for the next workout.
+  ///
+  /// [exercise]  – must match a key in Data().exerciseCharacteristics
+  /// [soreness]  – 0.0 (fresh) .. 1.0 (very sore) from PhysioService
+  /// [bmi]       – numerical BMI (e.g. 27.4)
+  ///
+  /// Returns: {'sets': <int>, 'reps': <int>}
+  Map<String, int> recommendSetsAndReps({
+    required String exercise,
+    required double soreness,
+    required double bmi,
+  }) {
+    final data = Data(); // singleton
+    final char = data.exerciseCharacteristics[exercise];
+    if (char == null) {
+      throw ArgumentError('Unknown exercise: $exercise');
+    }
+
+    // --- 1. Base prescription from exercise intensity ---
+    int sets, reps;
+    final int intensity = char.intensity; // 6–17 in your dataset
+
+    if (intensity <= 8) {
+      sets = 4;
+      reps = 15;
+    } // technique / metabolic
+    else if (intensity <= 12) {
+      sets = 4;
+      reps = 12;
+    } // hypertrophy‑endurance
+    else if (intensity <= 15) {
+      sets = 4;
+      reps = 10;
+    } // classic hypertrophy
+    else {
+      sets = 5;
+      reps = 8;
+    } // strength‑bias
+
+    // --- 2. Adjust for BMI category ---
+    if (bmi >= 30) {
+      // Obese
+      reps += 3; // extra calorie expenditure
+    } else if (bmi >= 25) {
+      // Over‑weight
+      reps += 1;
+    } else if (bmi < 18.5) {
+      // Under‑weight
+      reps = (reps - 2).clamp(5, 30);
+      sets += 1;
+    }
+
+    // --- 3. Modify for current soreness ---
+    if (soreness >= 0.67) {
+      // red – very sore
+      sets = (sets / 2).ceil();
+      reps = (reps * 0.6).round();
+    } else if (soreness >= 0.34) {
+      // green – mildly sore
+      sets = (sets * 0.8).ceil();
+      reps = (reps * 0.9).round();
+    }
+
+    reps = reps.clamp(5, 30); // sanity bounds
+    return {'sets': sets, 'reps': reps};
+  }
 }

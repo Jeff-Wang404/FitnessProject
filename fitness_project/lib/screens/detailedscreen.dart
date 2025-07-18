@@ -150,6 +150,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               builder: (context) =>
                                                   RecommendationScreen(
                                                     exerciseName: option_1,
+                                                    soreness: _soreness,
                                                   )));
                                     },
                                     child: Text(option_1,
@@ -172,6 +173,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               builder: (context) =>
                                                   RecommendationScreen(
                                                     exerciseName: option_2,
+                                                    soreness: _soreness,
                                                   )));
                                     },
                                     child: Text(option_2,
@@ -194,6 +196,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               builder: (context) =>
                                                   RecommendationScreen(
                                                     exerciseName: option_3,
+                                                    soreness: _soreness,
                                                   )));
                                     },
                                     child: Text(option_3,

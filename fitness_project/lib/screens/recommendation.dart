@@ -2,12 +2,28 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fitness_project/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fitness_project/services/data.dart';
+import 'package:fitness_project/services/physio.dart';
 
-class RecommendationScreen extends StatelessWidget {
-  const RecommendationScreen({super.key, required this.exerciseName});
+class RecommendationScreen extends StatefulWidget {
+  const RecommendationScreen(
+      {super.key, required this.exerciseName, required this.soreness});
   final String exerciseName;
+  final double soreness;
+
+  @override
+  State<RecommendationScreen> createState() => _RecommendationScreenState();
+}
+
+class _RecommendationScreenState extends State<RecommendationScreen> {
+  final Data data = Data();
+  int _selectedSexIndex = 0;
+  int _selectedHeight = 0;
+  int _selectedWeight = 0;
+  int _selectedAge = 0;
 
   // function to launch the link
   void _launchURL(String url) async {
@@ -24,7 +40,44 @@ class RecommendationScreen extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Load saved preferences
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        _selectedSexIndex = prefs.getInt('selectedSexIndex') ?? 0;
+        _selectedHeight = prefs.getInt('selectedHeight') ?? 0; // Default 0 cm
+        _selectedWeight = prefs.getInt('selectedWeight') ?? 0; // Default 0 kg
+        _selectedAge = prefs.getInt('selectedAge') ?? 0; // Default 0 years
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var workoutCharacteristics =
+        data.exerciseCharacteristics[widget.exerciseName];
+    var videoUrl = workoutCharacteristics?.videoUrl;
+    var physioService = PhysioService();
+
+    var bmi = physioService.getBMI(
+      _selectedSexIndex == 0 ? 'male' : 'female',
+      _selectedHeight,
+      _selectedWeight,
+      _selectedAge,
+    );
+
+    print("BMI: $bmi");
+
+    var recommendation = physioService.recommendSetsAndReps(
+      exercise: widget.exerciseName,
+      soreness: widget.soreness,
+      bmi: bmi,
+    );
+
+    var reps = recommendation['reps'] ?? 5;
+    var sets = recommendation['sets'] ?? 2;
+
     return Scaffold(
         appBar: AppBar(),
         body: Center(
@@ -42,11 +95,11 @@ class RecommendationScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Image.asset(
-                    'assets/exercises/${getLowerSnakecase(exerciseName)}.png'),
+                    'assets/exercises/${getLowerSnakecase(widget.exerciseName)}.png'),
               ),
             ),
             Text(
-              exerciseName,
+              widget.exerciseName,
               style: GoogleFonts.exo2(
                 textStyle: TextStyle(
                   fontSize: 40,
@@ -62,7 +115,7 @@ class RecommendationScreen extends StatelessWidget {
                     Text("Reps:"),
                     Text(
                       // random number (3-6) even for now
-                      ((Random().nextInt(3) + 3) * 2).toString(),
+                      reps.toString(),
                       style: TextStyle(fontSize: 35),
                     )
                   ],
@@ -72,7 +125,7 @@ class RecommendationScreen extends StatelessWidget {
                     Text("Sets:"),
                     Text(
                       // random number (3-9) for now
-                      (Random().nextInt(5) + 3).toString(),
+                      sets.toString(),
                       style: TextStyle(fontSize: 35),
                     )
                   ],
@@ -84,7 +137,14 @@ class RecommendationScreen extends StatelessWidget {
                 backgroundColor: Colors.black,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
-              onPressed: () {},
+              onPressed: () {
+                physioService.saveWorkout(
+                    DateTime.now(),
+                    widget.exerciseName,
+                    reps, // reps
+                    sets, // sets
+                    "Arms");
+              },
               child: Text(
                 'DEBUG: log workout',
                 style: GoogleFonts.exo2(
@@ -98,8 +158,7 @@ class RecommendationScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
               child: TextButton(
                   onPressed: () {
-                    _launchURL(
-                        'https://www.youtube.com/watch?v=WDIpL0pjun0&ab_channel=NationalAcademyofSportsMedicine%28NASM%29'); // replace with actual URL
+                    _launchURL(videoUrl.toString()); // replace with actual URL
                   },
                   child: Text(
                     'Click to Learn More',

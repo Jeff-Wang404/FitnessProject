@@ -59,6 +59,7 @@ class ExerciseCharacteristics {
     required this.thighsImpact,
     required this.shinsImpact,
     required this.intensity,
+    this.videoUrl,
   });
 
   double chestImpact = 0.0;
@@ -69,6 +70,7 @@ class ExerciseCharacteristics {
   double thighsImpact = 0.0;
   double shinsImpact = 0.0;
   int intensity;
+  String? videoUrl;
 }
 
 class Data {
@@ -109,204 +111,204 @@ class Data {
   late Map<String, ExerciseCharacteristics> exerciseCharacteristics;
 
   ExerciseCharacteristics pecDeck = ExerciseCharacteristics(
-    chestImpact: 0.9,
-    absImpact: 0.0,
-    shouldersImpact: 0.1,
-    bicepsImpact: 0.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 15,
-  );
+      chestImpact: 0.9,
+      absImpact: 0.0,
+      shouldersImpact: 0.1,
+      bicepsImpact: 0.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 15,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics barbellBenchPress = ExerciseCharacteristics(
-    chestImpact: 0.7,
-    absImpact: 0.0,
-    shouldersImpact: 0.2,
-    bicepsImpact: 0.1,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 10,
-  );
+      chestImpact: 0.7,
+      absImpact: 0.0,
+      shouldersImpact: 0.2,
+      bicepsImpact: 0.1,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 10,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics dumbbellFlies = ExerciseCharacteristics(
-    chestImpact: 0.6,
-    absImpact: 0.0,
-    shouldersImpact: 0.1,
-    bicepsImpact: 0.2,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 15,
-  );
+      chestImpact: 0.6,
+      absImpact: 0.0,
+      shouldersImpact: 0.1,
+      bicepsImpact: 0.2,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 15,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics dumbbellPresses = ExerciseCharacteristics(
-    chestImpact: 0.7,
-    absImpact: 0.0,
-    shouldersImpact: 0.2,
-    bicepsImpact: 0.1,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 10,
-  );
+      chestImpact: 0.7,
+      absImpact: 0.0,
+      shouldersImpact: 0.2,
+      bicepsImpact: 0.1,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 10,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics cableCrossover = ExerciseCharacteristics(
-    chestImpact: 0.8,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 0.2,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 15,
-  );
+      chestImpact: 0.8,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 0.2,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 15,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics inclineBenchPress = ExerciseCharacteristics(
-    chestImpact: 0.5,
-    absImpact: 0.0,
-    shouldersImpact: 0.3,
-    bicepsImpact: 0.2,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 10,
-  );
+      chestImpact: 0.5,
+      absImpact: 0.0,
+      shouldersImpact: 0.3,
+      bicepsImpact: 0.2,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 10,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics bicepCurls = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 1.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 15,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 1.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 15,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics preacherCurls = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 1.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 17,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 1.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 17,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics tricepsPushdowns = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 1.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 10,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 1.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 10,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics overheadCableTricepsExtension =
       ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 1.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 10,
-  );
+          chestImpact: 0.0,
+          absImpact: 0.0,
+          shouldersImpact: 0.0,
+          bicepsImpact: 1.0,
+          forearmsImpact: 0.0,
+          thighsImpact: 0.0,
+          shinsImpact: 0.0,
+          intensity: 10,
+          videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics hammerCurls = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 0.5,
-    forearmsImpact: 0.5,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 15,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 0.5,
+      forearmsImpact: 0.5,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 15,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics closeGripBenchPress = ExerciseCharacteristics(
-    chestImpact: 0.2,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 0.2,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.0,
-    shinsImpact: 0.0,
-    intensity: 10,
-  );
+      chestImpact: 0.2,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 0.2,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.0,
+      shinsImpact: 0.0,
+      intensity: 10,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics romanianDeadlift = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 0.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.8,
-    shinsImpact: 0.2,
-    intensity: 10,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 0.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.8,
+      shinsImpact: 0.2,
+      intensity: 10,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics kettlebellSwings = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.1,
-    bicepsImpact: 0.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.9,
-    shinsImpact: 0.0,
-    intensity: 6,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.1,
+      bicepsImpact: 0.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.9,
+      shinsImpact: 0.0,
+      intensity: 6,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics barbellFrontSquats = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 0.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.9,
-    shinsImpact: 0.1,
-    intensity: 15,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 0.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.9,
+      shinsImpact: 0.1,
+      intensity: 15,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics dumbellWalkingLunges = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 0.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.8,
-    shinsImpact: 0.2,
-    intensity: 8,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.0,
+      bicepsImpact: 0.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.8,
+      shinsImpact: 0.2,
+      intensity: 8,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics cableSquatToOverheadPress = ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.2,
-    bicepsImpact: 0.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 0.8,
-    shinsImpact: 0.0,
-    intensity: 10,
-  );
+      chestImpact: 0.0,
+      absImpact: 0.0,
+      shouldersImpact: 0.2,
+      bicepsImpact: 0.0,
+      forearmsImpact: 0.0,
+      thighsImpact: 0.8,
+      shinsImpact: 0.0,
+      intensity: 10,
+      videoUrl: "https://www.youtube.com");
 
   ExerciseCharacteristics landmineReverseLungeWithPress =
       ExerciseCharacteristics(
-    chestImpact: 0.0,
-    absImpact: 0.0,
-    shouldersImpact: 0.0,
-    bicepsImpact: 0.0,
-    forearmsImpact: 0.0,
-    thighsImpact: 1.0,
-    shinsImpact: 0.0,
-    intensity: 12,
-  );
+          chestImpact: 0.0,
+          absImpact: 0.0,
+          shouldersImpact: 0.0,
+          bicepsImpact: 0.0,
+          forearmsImpact: 0.0,
+          thighsImpact: 1.0,
+          shinsImpact: 0.0,
+          intensity: 12,
+          videoUrl: "https://www.youtube.com");
 
   String currentRecommendedWorkouts = "";
 
